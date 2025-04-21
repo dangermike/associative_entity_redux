@@ -4,7 +4,7 @@ A little test to show performance differences between indexing strategies in MyS
 
 ## Thesis
 
-The proper way to define 3-table relations in MySQL and PostgreSQL differ. In MySQL, the index on the associative entity should only contain the second column of the primary key. In PostgreSQL, the index on the associative entity should contain both columns, but in the reverse order of the primary key.
+The proper way to define 3-table relations in MySQL and PostgreSQL differ. In MySQL, the index on the associative entity should only contain the second column of the primary key. In PostgreSQL, the index on the associative entity should contain both columns, but in the reverse order of the primary key. This is due to the different approaches taken in MySQL and PostgreSQL to storing non-key data and what that means for how secondary indices are constructed.
 
 ## Explanation
 
