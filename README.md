@@ -38,7 +38,11 @@ Each schema is loaded with the same set of 1,000,000 random people, 1,000,000 ra
 
 This experiment used databases under Docker. This is not a good idea on a Mac, but we can ignore that because we are only interested in relative performance.
 
-* [schemata](load/schemata/)
+* Schemata
+  * [postgres cover](load/schemata/postgresql/cover.sql)
+  * [postgres no cover](load/schemata/postgresql/nocover.sql)
+  * [mysql cover](load/schemata/mysql/cover.sql)
+  * [mysql no cover](load/schemata/mysql/nocover.sql)
 * Queries
   * [postgresql](bench/pg.go)
   * [mysql](bench/my.go)
