@@ -1,0 +1,17 @@
+services:
+#   assoc_ent_rdx:
+#     build: .
+  mysql:
+    image: "mysql:9.2"
+    restart: always
+    environment:
+        MYSQL_ROOT_PASSWORD: wont_tell
+    ports:
+      - 3306:3306
+  postgres:
+    image: "postgres:17.4"
+    restart: always
+    environment:
+        POSTGRES_PASSWORD: wont_tell
+    ports:
+      - 5432:5432

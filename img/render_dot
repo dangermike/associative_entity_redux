@@ -1,0 +1,55 @@
+#!/usr/bin/env zsh
+
+set -euo pipefail
+
+function errecho() {
+    1>&2 echo -e "\033[0;31m$1\033[0m"
+}
+
+if [ ! -x "$( command -v dot)" ]; then
+    errecho "dot not found. please install the graphviz package"
+    exit 1
+fi
+
+if [ ! -x "$( command -v rsvg-convert)" ]; then
+    errecho "rsvg-convert not found. please install the librsvg package"
+    exit 1
+fi
+
+if [ ! -x "$( command -v goseq)" ]; then
+    errecho "goseq not found. please install the with the following command:\ngo install github.com/lmika/goseq@latest"
+    exit 1
+fi
+
+# This is a pain in the neck because __init_nvm is required. It's slow so I
+# don't want it in my .zshrc. I'm not using mermaid at this time, so I'll leave
+# it disabled for now.
+#
+# if [ ! -x "$( command -v npm)" ]; then
+#     errecho "npm (needed for mermaid) not found. please install the with the following command:\nnpm install -g @mermaid-js/mermaid-cli"
+#     exit 1
+# fi
+#
+# if [ ! -x "$( command -v mmdc)" ]; then
+#     errecho "Mermaid CLI (mmdc) not found. please install the with the following command:\nnpm install -g @mermaid-js/mermaid-cli"
+#     exit 1
+# fi
+
+while read -r x; do
+    dot "$x" -Tsvg > "${x:r}.svg"
+    rsvg-convert -z2 > "${x:r}.png" < "${x:r}.svg"
+done < <(git ls-files --exclude-standard --others -m "*.dot")
+
+while read -r src; do
+    trg="${src:r}.svg"
+    trgP="${src:r}.png"
+    goseq -o "$trg" "$src"
+    rsvg-convert -z 3.0 > "${trgP}" < "${trg}"
+done < <( git ls-files --exclude-standard --others -m "*.seqdiag")
+
+while read -r src; do
+    trg="${src:r}.svg"
+    trgP="${src:r}.png"
+    docker run --rm -u `id -u`:`id -g` -v $PWD:/data minlag/mermaid-cli -i "$src" -o "${trg}"
+    rsvg-convert -z 3.0 > "${trgP}" < "${trg}"
+done < <( git ls-files --exclude-standard --others -m "*.mmd")

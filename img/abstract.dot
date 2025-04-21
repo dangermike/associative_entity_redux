@@ -1,0 +1,36 @@
+digraph {
+    rankdir=LR
+    p:id -> pc:pid_l
+    pc:cid_r -> c:id [dir=back]
+
+    {
+        edge [style="invis"]
+        p:name -> pc:cid_l
+        c:name -> pc:pid_r
+    }
+
+
+    p [shape=plaintext label=<
+     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+     <TR><TD COLSPAN="3">PEOPLE</TD></TR>
+     <TR><TD>id</TD><TD>int</TD><TD port="id">PK</TD></TR>
+     <TR><TD>name</TD><TD>varchar</TD><TD port="name">IX</TD></TR>
+     </TABLE>
+    >]
+
+    pc [shape=plaintext label=<
+     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+     <TR><TD COLSPAN="3">PEOPLE_COMPANIES</TD></TR>
+     <TR><TD port="pid_l">person_id</TD><TD>int</TD><TD port="pid_r">PK</TD></TR>
+     <TR><TD port="cid_l">company_id</TD><TD>int</TD><TD port="cid_r">PK</TD></TR>
+     </TABLE>
+    >]
+
+    c [shape=plaintext label=<
+     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+     <TR><TD COLSPAN="3">COMPANIES</TD></TR>
+     <TR><TD port="id">id</TD><TD>int</TD><TD>PK</TD></TR>
+     <TR><TD port="name">name</TD><TD>varchar</TD><TD>IX</TD></TR>
+     </TABLE>
+    >]
+}

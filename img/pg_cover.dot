@@ -1,0 +1,99 @@
+digraph {
+    rankdir=LR
+    node [fontname="courier"]
+    graph [fontname="courier-bold" fontsize="18"]
+    edge [weight=1000 penwidth="5"]
+
+    {
+        node [fontname="courier-bold" shape="circle"]
+        start_p [label="person\nname"]
+        start_c [label="company\nname"]
+    }
+
+    subgraph cluster_pc {
+        label="PEOPLE_COMPANIES"
+        pk_pc [shape="plaintext" label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+            <TR><TD><B>PK_PEOPLE_COMPANIES</B></TD></TR>
+            <TR><TD port="pid">person_id</TD></TR>
+            <TR><TD port="cid">company_id</TD></TR>
+        </TABLE>>]
+        ix_pc [shape="plaintext" label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+            <TR><TD><B>IX_PEOPLE_COMPANIES_COMPANY_ID</B></TD></TR>
+            <TR><TD port="cid">company_id</TD></TR>
+            <TR><TD port="pid">person_id</TD></TR>
+            <TR><TD port="ctid">ctid</TD></TR>
+        </TABLE>>]
+        heap_pc [shape="plaintext" label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+            <TR><TD port="t"><B>HEAP_PEOPLE_COMPANIES_COMPANY</B></TD></TR>
+            <TR><TD port="id">ctid</TD></TR>
+            <TR><TD port="pid">person_id</TD></TR>
+            <TR><TD port="ctid">company_id</TD></TR>
+        </TABLE>>]
+        { rank=same; pk_pc -> ix_pc [minlen="5" style="invis"] }
+        { rank=same; heap_pc -> ix_pc:r [minlen="1" dir="back" color="green" style="invis"] }
+    }
+
+    subgraph cluster_companies {
+        label="COMPANIES"
+        pk_companies [shape="plaintext" label=<<TABLE  BORDER="0" CELLBORDER="1" CELLSPACING="0">
+            <TR><TD><B>PK_COMPANIES</B></TD></TR>
+            <TR><TD port="cid">id</TD></TR>
+            <TR><TD port="ctid">ctid</TD></TR>
+        </TABLE>>]
+        ix_companies [shape="plaintext" label=<<TABLE  BORDER="0" CELLBORDER="1" CELLSPACING="0">
+            <TR><TD><B>IX_COMPANIES_NAME</B></TD></TR>
+            <TR><TD port="name">name</TD></TR>
+            <TR><TD port="cid">company_id</TD></TR>
+            <TR><TD port="ctid">ctid</TD></TR>
+        </TABLE>>]
+        heap_companies [shape="plaintext" label=<<TABLE  BORDER="0" CELLBORDER="1" CELLSPACING="0">
+            <TR><TD><B>HEAP_COMPANIES</B></TD></TR>
+            <TR><TD port="ctid">ctid</TD></TR>
+            <TR><TD port="cid">id</TD></TR>
+            <TR><TD port="name">name</TD></TR>
+        </TABLE>>]
+
+        { rank=same; pk_companies -> ix_companies [minlen="5" style="invis"] }
+        { rank=same; pk_companies -> heap_companies [color="blue"] }
+    }
+
+    subgraph cluster_people {
+        label="PEOPLE"
+        pk_people [shape="plaintext" label=<<TABLE  BORDER="0" CELLBORDER="1" CELLSPACING="0">
+            <TR><TD><B>PK_PEOPLE</B></TD></TR>
+            <TR><TD port="pid">id</TD></TR>
+            <TR><TD port="ctid">ctid</TD></TR>
+        </TABLE>>]
+        ix_people [shape="plaintext" label=<<TABLE  BORDER="0" CELLBORDER="1" CELLSPACING="0">
+            <TR><TD><B>IX_PEOPLE_NAME</B></TD></TR>
+            <TR><TD port="name">name</TD></TR>
+            <TR><TD port="pid">id</TD></TR>
+            <TR><TD port="ctid">ctid</TD></TR>
+        </TABLE>>]
+        heap_people [shape="plaintext" label=<<TABLE  BORDER="0" CELLBORDER="1" CELLSPACING="0">
+            <TR><TD><B>HEAP_PEOPLE</B></TD></TR>
+            <TR><TD port="ctid">ctid</TD></TR>
+            <TR><TD port="pid">id</TD></TR>
+            <TR><TD port="name">name</TD></TR>
+        </TABLE>>]
+        { rank=same; ix_people -> pk_people [minlen=5 style="invis"] }
+        { rank=same; ix_people -> heap_people [minlen=1 color="blue" style="invis"] }
+        { rank=same; pk_people -> heap_people [minlen=1 color="green" constraint="false"] }
+    }
+
+    {
+        edge [color="blue"]
+        start_p -> ix_people:name
+        ix_people:pid -> pk_pc:pid
+        pk_pc:cid -> pk_companies:cid
+        heap_companies:name -> start_c
+    }
+
+    {
+        edge [dir="back" color="green"]
+        ix_companies:name -> start_c
+        ix_pc:cid -> ix_companies:cid
+        pk_people:pid -> ix_pc:pid
+        start_p -> heap_people:name
+    }
+}

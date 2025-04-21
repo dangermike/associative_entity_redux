@@ -1,0 +1,3 @@
+INSERT INTO {{.Table}} (person_id, company_id)
+VALUES {{range $i, $a := .Assocs}}{{if gt $i 0}},{{end}}{{if eq 0 (mod $i 5)}}
+ {{end}} ({{index $a 0}}, '{{index $a 1}}'){{end}}
