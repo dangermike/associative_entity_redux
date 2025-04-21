@@ -16,6 +16,7 @@ digraph {
             <TR><TD><B>PK_PEOPLE_COMPANIES</B></TD></TR>
             <TR><TD port="pid">person_id</TD></TR>
             <TR><TD port="cid">company_id</TD></TR>
+            <TR><TD port="ctid">ctid</TD></TR>
         </TABLE>>]
         ix_pc [shape="plaintext" label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
             <TR><TD><B>IX_PEOPLE_COMPANIES_COMPANY_ID</B></TD></TR>
@@ -30,7 +31,7 @@ digraph {
             <TR><TD port="ctid">company_id</TD></TR>
         </TABLE>>]
         { rank=same; pk_pc -> ix_pc [minlen="5" style="invis"] }
-        { rank=same; heap_pc -> ix_pc:r [minlen="1" dir="back" color="green" style="invis"] }
+        { rank=same; heap_pc -> ix_pc [minlen="1" dir="back" color="green" style="invis"] }
     }
 
     subgraph cluster_companies {

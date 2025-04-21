@@ -14,41 +14,41 @@ digraph {
         label="PEOPLE_COMPANIES"
         pk_pc [shape="plaintext" label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
             <TR><TD><B>PK_PEOPLE_COMPANIES</B></TD></TR>
-            <TR><TD port="l">person_id</TD></TR>
-            <TR><TD port="r">company_id</TD></TR>
+            <TR><TD port="pid">person_id</TD></TR>
+            <TR><TD port="cid">company_id</TD></TR>
         </TABLE>>]
         ix_pc [shape="plaintext" label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
             <TR><TD><B>IX_PEOPLE_COMPANIES_COMPANY_ID</B></TD></TR>
-            <TR><TD port="l">company_id</TD></TR>
-            <TR><TD port="r">ctid</TD></TR>
+            <TR><TD port="cid">company_id</TD></TR>
+            <TR><TD port="ctid">ctid</TD></TR>
         </TABLE>>]
         heap_pc [shape="plaintext" label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
             <TR><TD port="t"><B>HEAP_PEOPLE_COMPANIES_COMPANY</B></TD></TR>
-            <TR><TD port="l">ctid</TD></TR>
-            <TR><TD port="r">person_id</TD></TR>
-            <TR><TD port="r">company_id</TD></TR>
+            <TR><TD port="ctid">ctid</TD></TR>
+            <TR><TD port="pid">person_id</TD></TR>
+            <TR><TD port="cid">company_id</TD></TR>
         </TABLE>>]
         { rank=same; pk_pc -> ix_pc [minlen="5" style="invis"] }
-        { rank=same; heap_pc -> ix_pc:r [minlen="1" dir="back" color="green"] }
+        { rank=same; heap_pc -> ix_pc:ctid [minlen="1" dir="back" color="green"] }
     }
 
     subgraph cluster_companies {
         label="COMPANIES"
         pk_companies [shape="plaintext" label=<<TABLE  BORDER="0" CELLBORDER="1" CELLSPACING="0">
             <TR><TD><B>PK_COMPANIES</B></TD></TR>
-            <TR><TD port="l">id</TD></TR>
-            <TR><TD port="r">ctid</TD></TR>
+            <TR><TD port="cid">id</TD></TR>
+            <TR><TD port="ctid">ctid</TD></TR>
         </TABLE>>]
         ix_companies [shape="plaintext" label=<<TABLE  BORDER="0" CELLBORDER="1" CELLSPACING="0">
             <TR><TD><B>IX_COMPANIES_NAME</B></TD></TR>
-            <TR><TD port="r">name</TD></TR>
-            <TR><TD port="l">ctid</TD></TR>
+            <TR><TD port="name">name</TD></TR>
+            <TR><TD port="ctid">ctid</TD></TR>
         </TABLE>>]
         heap_companies [shape="plaintext" label=<<TABLE  BORDER="0" CELLBORDER="1" CELLSPACING="0">
             <TR><TD><B>HEAP_COMPANIES</B></TD></TR>
-            <TR><TD port="t">ctid</TD></TR>
-            <TR><TD port="l">id</TD></TR>
-            <TR><TD port="r">name</TD></TR>
+            <TR><TD port="ctid">ctid</TD></TR>
+            <TR><TD port="cid">id</TD></TR>
+            <TR><TD port="name">name</TD></TR>
         </TABLE>>]
 
         { rank=same; pk_companies -> ix_companies [minlen="5" style="invis"] }
@@ -60,19 +60,19 @@ digraph {
         label="PEOPLE"
         pk_people [shape="plaintext" label=<<TABLE  BORDER="0" CELLBORDER="1" CELLSPACING="0">
             <TR><TD><B>PK_PEOPLE</B></TD></TR>
-            <TR><TD port="l">id</TD></TR>
-            <TR><TD port="r">ctid</TD></TR>
+            <TR><TD port="pid">id</TD></TR>
+            <TR><TD port="ctid">ctid</TD></TR>
         </TABLE>>]
         ix_people [shape="plaintext" label=<<TABLE  BORDER="0" CELLBORDER="1" CELLSPACING="0">
             <TR><TD><B>IX_PEOPLE_NAME</B></TD></TR>
-            <TR><TD port="r">name</TD></TR>
-            <TR><TD port="l">ctid</TD></TR>
+            <TR><TD port="name">name</TD></TR>
+            <TR><TD port="ctid">ctid</TD></TR>
         </TABLE>>]
         heap_people [shape="plaintext" label=<<TABLE  BORDER="0" CELLBORDER="1" CELLSPACING="0">
             <TR><TD><B>HEAP_PEOPLE</B></TD></TR>
-            <TR><TD port="t">ctid</TD></TR>
-            <TR><TD port="l">id</TD></TR>
-            <TR><TD port="r">name</TD></TR>
+            <TR><TD port="ctid">ctid</TD></TR>
+            <TR><TD port="pid">id</TD></TR>
+            <TR><TD port="name">name</TD></TR>
         </TABLE>>]
         { rank=same; ix_people -> pk_people [minlen=5 style="invis"] }
         { rank=same; ix_people -> heap_people [minlen=1 color="blue"] }
@@ -81,20 +81,20 @@ digraph {
 
     {
         edge [color="blue"]
-        start_p -> ix_people:r
-        ix_people:r -> pk_pc:l [style="invis"]
-        heap_people:l -> pk_pc:l
-        pk_pc:r -> pk_companies:l
-        heap_companies:r -> start_c
+        start_p -> ix_people:name
+        ix_people -> pk_pc [style="invis"]
+        heap_people:pid -> pk_pc:pid
+        pk_pc:cid -> pk_companies:cid
+        heap_companies:name -> start_c
     }
 
     {
         edge [dir="back" color="green"]
-        ix_companies:r -> start_c
-        ix_pc:l -> ix_companies:l [style="invis"]
-        ix_pc:l -> heap_companies:l
-        pk_people:l -> ix_pc:r  [style="invis"]
-        pk_people:l -> heap_pc:r [constraint="false"]
-        start_p -> heap_people:r
+        ix_companies:name -> start_c
+        ix_pc -> ix_companies [style="invis"]
+        ix_pc:cid -> heap_companies:cid
+        pk_people -> ix_pc  [style="invis"]
+        pk_people:pid -> heap_pc:pid [constraint="false"]
+        start_p -> heap_people:name
     }
 }

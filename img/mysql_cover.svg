@@ -42,7 +42,7 @@
 </g>
 <!-- start_p&#45;&gt;pk_people -->
 <g id="edge11" class="edge">
-<title>start_p&#45;&gt;pk_people:r</title>
+<title>start_p&#45;&gt;pk_people:name</title>
 <path fill="none" stroke="green" stroke-width="5" d="M90.34,-169.37C108.94,-183.95 131.99,-196.5 156.26,-196.5"/>
 <polygon fill="green" stroke="green" stroke-width="5" points="93.42,-166.25 82.97,-163.11 87.76,-172.92 93.42,-166.25"/>
 </g>
@@ -58,7 +58,7 @@
 </g>
 <!-- start_p&#45;&gt;ix_people -->
 <g id="edge4" class="edge">
-<title>start_p&#45;&gt;ix_people:r</title>
+<title>start_p&#45;&gt;ix_people:name</title>
 <path fill="none" stroke="blue" stroke-width="5" d="M74.09,-87.84C86.26,-74.48 101.96,-61.44 119.8,-56.3"/>
 <polygon fill="blue" stroke="blue" stroke-width="5" points="120.19,-60.66 129.46,-54.9 118.93,-52 120.19,-60.66"/>
 </g>
@@ -102,7 +102,7 @@
 </g>
 <!-- pk_pc&#45;&gt;pk_companies -->
 <g id="edge6" class="edge">
-<title>pk_pc:r&#45;&gt;pk_companies:l</title>
+<title>pk_pc:cid&#45;&gt;pk_companies:cid</title>
 <path fill="none" stroke="blue" stroke-width="5" d="M519.26,-37.5C565.53,-37.5 580.04,-50.53 619.25,-53.43"/>
 <polygon fill="blue" stroke="blue" stroke-width="5" points="618.87,-57.8 629.02,-53.78 619.18,-49.05 618.87,-57.8"/>
 </g>
@@ -118,32 +118,32 @@
 </g>
 <!-- ix_pc&#45;&gt;ix_companies -->
 <g id="edge9" class="edge">
-<title>ix_pc:l&#45;&gt;ix_companies:l</title>
+<title>ix_pc:cid&#45;&gt;ix_companies:cid</title>
 <path fill="none" stroke="green" stroke-width="5" d="M580,-220.29C591.39,-212.2 595.65,-196.5 614.63,-196.5"/>
 <polygon fill="green" stroke="green" stroke-width="5" points="578.88,-216.06 570.59,-223.17 581.44,-224.43 578.88,-216.06"/>
 </g>
 <!-- pk_companies&#45;&gt;start_c -->
 <g id="edge7" class="edge">
-<title>pk_companies:r&#45;&gt;start_c</title>
+<title>pk_companies:name&#45;&gt;start_c</title>
 <path fill="none" stroke="blue" stroke-width="5" d="M742.26,-31.5C771.4,-31.5 797.24,-49.84 816.99,-70.27"/>
 <polygon fill="blue" stroke="blue" stroke-width="5" points="813.49,-72.93 823.43,-77.44 820,-67.08 813.49,-72.93"/>
 </g>
 <!-- pk_companies&#45;&gt;ix_companies -->
 <!-- ix_companies&#45;&gt;start_c -->
 <g id="edge8" class="edge">
-<title>ix_companies:r&#45;&gt;start_c</title>
+<title>ix_companies:name&#45;&gt;start_c</title>
 <path fill="none" stroke="green" stroke-width="5" d="M778.78,-216.7C801.39,-210.11 819.68,-190.38 832.88,-170.9"/>
 <polygon fill="green" stroke="green" stroke-width="5" points="778.33,-212.35 769.05,-218.11 779.58,-221.01 778.33,-212.35"/>
 </g>
 <!-- pk_people&#45;&gt;ix_pc -->
 <g id="edge10" class="edge">
-<title>pk_people:l&#45;&gt;ix_pc:r</title>
+<title>pk_people:pid&#45;&gt;ix_pc:pid</title>
 <path fill="none" stroke="green" stroke-width="5" d="M254.52,-217.42C274.05,-213.29 283.07,-202.5 309.13,-202.5"/>
 <polygon fill="green" stroke="green" stroke-width="5" points="254.23,-213.05 244.71,-218.39 255.09,-221.76 254.23,-213.05"/>
 </g>
 <!-- ix_people&#45;&gt;pk_pc -->
 <g id="edge5" class="edge">
-<title>ix_people:l&#45;&gt;pk_pc:l</title>
+<title>ix_people:pid&#45;&gt;pk_pc:pid</title>
 <path fill="none" stroke="blue" stroke-width="5" d="M259.13,-31.5C297.5,-31.5 307.78,-52.93 338.68,-58.63"/>
 <polygon fill="blue" stroke="blue" stroke-width="5" points="337.95,-62.95 348.29,-59.46 338.71,-54.24 337.95,-62.95"/>
 </g>

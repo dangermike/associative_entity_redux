@@ -13,13 +13,13 @@ digraph {
         label="PEOPLE_COMPANIES"
         pk_pc [shape="plaintext" label=<<TABLE  BORDER="0" CELLBORDER="1" CELLSPACING="0">
             <TR><TD><B>PK_PEOPLE_COMPANIES</B></TD></TR>
-            <TR><TD port="l">person_id</TD></TR>
-            <TR><TD port="r">company_id</TD></TR>
+            <TR><TD port="pid">person_id</TD></TR>
+            <TR><TD port="cid">company_id</TD></TR>
         </TABLE>>]
         ix_pc [shape="plaintext" label=<<TABLE  BORDER="0" CELLBORDER="1" CELLSPACING="0">
             <TR><TD><B>IX_PEOPLE_COMPANIES_COMPANY_ID</B></TD></TR>
-            <TR><TD port="l">company_id</TD></TR>
-            <TR><TD port="r">person_id</TD></TR>
+            <TR><TD port="cid">company_id</TD></TR>
+            <TR><TD port="pid">person_id</TD></TR>
         </TABLE>>]
         { rank=same; pk_pc -> ix_pc [minlen="5" style="invis"] }
     }
@@ -28,13 +28,13 @@ digraph {
         label="COMPANIES"
         pk_companies [shape="plaintext" label=<<TABLE  BORDER="0" CELLBORDER="1" CELLSPACING="0">
             <TR><TD><B>PK_COMPANIES</B></TD></TR>
-            <TR><TD port="l">id</TD></TR>
-            <TR><TD port="r">name</TD></TR>
+            <TR><TD port="cid">id</TD></TR>
+            <TR><TD port="name">name</TD></TR>
         </TABLE>>]
         ix_companies [shape="plaintext" label=<<TABLE  BORDER="0" CELLBORDER="1" CELLSPACING="0">
             <TR><TD><B>IX_COMPANIES_NAME</B></TD></TR>
-            <TR><TD port="r">name</TD></TR>
-            <TR><TD port="l">id</TD></TR>
+            <TR><TD port="name">name</TD></TR>
+            <TR><TD port="cid">id</TD></TR>
         </TABLE>>]
         { rank=same; pk_companies -> ix_companies [minlen="5" style="invis"] }
     }
@@ -43,30 +43,30 @@ digraph {
         label="PEOPLE"
         pk_people [shape="plaintext" label=<<TABLE  BORDER="0" CELLBORDER="1" CELLSPACING="0">
             <TR><TD><B>PK_PEOPLE</B></TD></TR>
-            <TR><TD port="l">id</TD></TR>
-            <TR><TD port="r">name</TD></TR>
+            <TR><TD port="pid">id</TD></TR>
+            <TR><TD port="name">name</TD></TR>
         </TABLE>>]
         ix_people [shape="plaintext" label=<<TABLE  BORDER="0" CELLBORDER="1" CELLSPACING="0">
             <TR><TD><B>IX_PEOPLE_NAME</B></TD></TR>
-            <TR><TD port="r">name</TD></TR>
-            <TR><TD port="l">id</TD></TR>
+            <TR><TD port="name">name</TD></TR>
+            <TR><TD port="pid">id</TD></TR>
         </TABLE>>]
         { rank=same; ix_people -> pk_people [minlen=5 style="invis"] }
     }
 
     {
         edge [penwidth="5" color="blue"]
-        start_p -> ix_people:r
-        ix_people:l -> pk_pc:l
-        pk_pc:r -> pk_companies:l
-        pk_companies:r -> start_c
+        start_p -> ix_people:name
+        ix_people:pid -> pk_pc:pid
+        pk_pc:cid -> pk_companies:cid
+        pk_companies:name -> start_c
     }
 
     {
         edge [dir="back" penwidth="5" color="green"]
-        ix_companies:r -> start_c
-        ix_pc:l -> ix_companies:l
-        pk_people:l -> ix_pc:r
-        start_p -> pk_people:r
+        ix_companies:name -> start_c
+        ix_pc:cid -> ix_companies:cid
+        pk_people:pid -> ix_pc:pid
+        start_p -> pk_people:name
     }
 }
