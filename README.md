@@ -38,6 +38,11 @@ Each schema is loaded with the same set of 1,000,000 random people, 1,000,000 ra
 
 This experiment used databases under Docker. This is not a good idea on a Mac, but we can ignore that because we are only interested in relative performance.
 
+* [schemata](load/schemata/)
+* Queries
+  * [postgresql](bench/pg.go)
+  * [mysql](bench/my.go)
+
 ### Running the experiment
 
 1. Start the databases using `docker compose up`
@@ -57,6 +62,8 @@ Note that these were not taken in a clean environment, so a certain amount of va
   * MacOS 15.3.2
   * Docker 28.0.4
   * Go 1.24.2
+    * [github.com/jackc/pgx/v5](https://github.com/jackc/pgx/v5) v5.7.4
+    * [github.com/go-sql-driver/mysql](https://github.com/go-sql-driver/mysql) v1.9.1
   * MySQL 9.4
   * Postgres 17.4
 
@@ -120,6 +127,7 @@ Blue lines represent the query path from a person name to company name. Green li
 
 #### PostgreSQL cover
 
+* [schema](load/schemata/postgresql/cover.sql)
 * **P2C**: 5 steps
 * **C2P**: 5 steps
 
@@ -127,6 +135,7 @@ Blue lines represent the query path from a person name to company name. Green li
 
 #### PostgreSQL no cover
 
+* [schema](load/schemata/postgresql/nocover.sql)
 * **P2C**: 6 steps
 * **C2P**: 7 steps
 
@@ -134,6 +143,7 @@ Blue lines represent the query path from a person name to company name. Green li
 
 #### MySQL cover
 
+* [schema](load/schemata/mysql/cover.sql)
 * **P2C**: 4 steps
 * **C2P**: 4 steps
 
@@ -141,6 +151,7 @@ Blue lines represent the query path from a person name to company name. Green li
 
 #### MySQL no cover
 
+* [schema](load/schemata/mysql/nocover.sql)
 * **P2C**: 4 steps
 * **C2P**: 4 steps
 
