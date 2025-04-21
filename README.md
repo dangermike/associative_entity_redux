@@ -10,19 +10,25 @@ The proper way to define 3-table relations in MySQL and PostgreSQL differ. In My
 
 ### Abstract view of the problem
 
+Abstractly, we can think of our problem as three tables. You can start with a person's name and resolve that into zero, one, or many company names (blue lines). Likewise, you can start with a company name and resolve that into zero, one, or many person names (green lines).
+
 ![abstract view of the three tables](img/abstract.svg)
 
-Abstractly, we can think of our problem as three tables. This breaks down pretty quickly when you consider that the primary key of the `PEOPLE_COMPANIES` table has an order. In other words, looking up by `company_id` is like trying to look up by first name in the phone book: A full table scan is necessary.
+This breaks down pretty quickly when you consider that the primary key of the `PEOPLE_COMPANIES` table has an order. In other words, looking up by `company_id` is like trying to look up by first name in the phone book: A full table scan is necessary.
+
+Adding an index on `company_id` allows for `O(log n)` lookups in both directions, which is what we want. The most efficient definition of this secondary index depends on the database engine, but is a one-size-fits-all schema possible?
 
 ![three tables, implementation-independent](img/abstract_2.svg)
 
-Adding an index on `company_id` allows for `O(log n)` lookups in both directions, which is what we want. The definition of this secondary index depends on the database engine, which means that a one-size-fits-all schema is not possible.
+### Engines
 
-### MySQL vs. PostgreSQL
+#### MySQL
 
 In MySQL (and SQL Server), the primary key is a clustered index, meaning that each row is made up of the primary key columns (sorted) with the non-key columns there in the row. As a result, secondary (non-clustered) indices contain the index key column(s) and the primary key. If a query using the non-clustered index uses a non-key column, the engine will use the primary key columns to look up the non-key data in the clustered index. That means that the cost of your query is `O(log n) + O(m * log(l))` where `n` is the number of keys looked up in your non-clustered index and `m` is the number of rows resolved by that non-clustered lookup that need to be retrieved from the clustered index, and `l` is the number of rows in the table.
 
 For our use case, we can consider the reverse-lookup secondary index to be a map of `company_name -> {person_id, company_id}`, so there is no reason to look the person_id up in the clustered index -- we already have it. This makes our query run in `O(log n)` time.
+
+#### PostgreSQL
 
 PostgreSQL made a different choice in terms of table structure. As noted in the [documentation](https://www.postgresql.org/docs/current/indexes-index-only-scans.html):
 
@@ -34,7 +40,7 @@ The primary key requires both columns for uniqueness, so there will be no heap l
 
 ## Experiment
 
-Each schema is loaded with the same set of 1,000,000 random people, 1,000,000 random companies, and 5,000,000 unique relations between them. Each query cycle is choosing 1,000 names to query. Each test runs 10 times, throwing out the high and low times and averaging the rest.
+Each schema is loaded with the same set of 1,000,000 random people, 1,000,000 random companies, and 5,000,000 unique relations between them. Since the data is static and created so that all keys in the `people_companies` table match a row in the `people` or `companies` table, explicit foreign keys were not defined. Each query cycle is choosing 1,000 names to query. Each test runs 10 times, throwing out the high and low times and averaging the rest.
 
 This experiment used databases under Docker. This is not a good idea on a Mac, but we can ignore that because we are only interested in relative performance.
 
@@ -79,7 +85,7 @@ All time are in ns/query.
 * **p2c**: given the names of 1000 people, find all related companies
 * **c2p**: given the names of 1000 companies, find all related people
 * **delta**: ratio of p2c and c2p as `((p2c/c2p)-1)*100`
-* *delta_b*: same as delta, but with the baseline subtracted from both sides
+* **delta_b**: same as delta, but with the baseline subtracted from both sides
 
 | engine   | test    | baseline | p2c     | c2p     | delta   | delta_b |
 | -------- | ------- | -------: | ------: | ------: | ------: | ------: |
@@ -109,15 +115,15 @@ All values are in bytes. Queries are in the [appendix](#table-size-queries).
 
 ### Analysis
 
-#### PostgreSQL
+#### PostgreSQL performance and size
 
 The value of the covering index in PostgreSQL is clear: p2c and c2p cost is roughly the same with the covering index, but sigificantly slower without the covering index. This is matches our expectations. The total size cost of the covering index is 17.8% for the `people_companies` table.
 
-#### MySQL
+#### MySQL performance and size
 
 For MySQL, the covering index doesn't help. In fact, the wider key means fewer rows per page, which may explain being slightly slower. It's close enough that I don't want to read too much into it, especially given the dirty environment we're testing.
 
-What is with the table sizes? This may be an optimization issue. The absolute performance values of the nocover tables are slightly slower, even on the `baseline` test, where the schemas and data are identical. I'm not going to read too much into it, but I have a theory: MySQL, recognizing that the whole primary key is present in the secondary index key and that there are no other columns, doesn't bother with appending the primary key as a value in the index.
+The difference in table sizes was not expected, but may be an optimization/maintenance issue. The absolute performance values of the nocover tables are slightly slower, even on the `baseline` test, where the schemas and data are identical. I'm not going to read too much into it, but I have a theory: MySQL, recognizing that the whole primary key is present in the secondary index key and that there are no other columns, doesn't bother with appending the primary key as a value in the index.
 
 #### Other stuff
 

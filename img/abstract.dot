@@ -1,36 +1,53 @@
 digraph {
     rankdir=LR
-    p:id -> pc:pid_l
-    pc:cid_r -> c:id [dir=back]
+    node [fontname="courier"]
+    graph [fontname="courier-bold" fontsize="18"]
 
     {
-        edge [style="invis"]
-        p:name -> pc:cid_l
-        c:name -> pc:pid_r
+        node [fontname="courier-bold" shape="circle"]
+        start_p [label="person\nname"]
+        start_c [label="company\nname"]
     }
 
+    pc [shape="plaintext" label=<<TABLE  BORDER="0" CELLBORDER="1" CELLSPACING="0">
+        <TR><TD><B>PEOPLE_COMPANIES</B></TD></TR>
+        <TR><TD port="pid">person_id (PK)</TD></TR>
+        <TR><TD port="cid">company_id (PK, IX)</TD></TR>
+    </TABLE>>]
 
-    p [shape=plaintext label=<
-     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
-     <TR><TD COLSPAN="3">PEOPLE</TD></TR>
-     <TR><TD>id</TD><TD>int</TD><TD port="id">PK</TD></TR>
-     <TR><TD>name</TD><TD>varchar</TD><TD port="name">IX</TD></TR>
-     </TABLE>
-    >]
+    companies [shape="plaintext" label=<<TABLE  BORDER="0" CELLBORDER="1" CELLSPACING="0">
+        <TR><TD><B>COMPANIES</B></TD></TR>
+        <TR><TD port="cid">id (PK)</TD></TR>
+        <TR><TD port="name">name (IX)</TD></TR>
+    </TABLE>>]
 
-    pc [shape=plaintext label=<
-     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
-     <TR><TD COLSPAN="3">PEOPLE_COMPANIES</TD></TR>
-     <TR><TD port="pid_l">person_id</TD><TD>int</TD><TD port="pid_r">PK</TD></TR>
-     <TR><TD port="cid_l">company_id</TD><TD>int</TD><TD port="cid_r">PK</TD></TR>
-     </TABLE>
-    >]
+    people [shape="plaintext" label=<<TABLE  BORDER="0" CELLBORDER="1" CELLSPACING="0">
+        <TR><TD><B>PK_PEOPLE</B></TD></TR>
+        <TR><TD port="pid">id (PK)</TD></TR>
+        <TR><TD port="name">name (IX)</TD></TR>
+    </TABLE>>]
 
-    c [shape=plaintext label=<
-     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
-     <TR><TD COLSPAN="3">COMPANIES</TD></TR>
-     <TR><TD port="id">id</TD><TD>int</TD><TD>PK</TD></TR>
-     <TR><TD port="name">name</TD><TD>varchar</TD><TD>IX</TD></TR>
-     </TABLE>
-    >]
+    {
+        edge [penwidth="5" color="blue"]
+        start_p:e -> people:name
+        people:pid -> pc:pid
+        pc:cid -> companies:cid
+        companies:name -> start_c:w
+    }
+
+    {
+        edge [dir="back" penwidth="5" color="green"]
+        companies:name -> start_c:w
+        pc:cid -> companies:cid
+        people:pid -> pc:pid
+        start_p:e -> people:name
+    }
+
+    {
+        edge [weight=1000 style="invis"]
+        start_p:e -> people:w
+        people:e -> pc:w
+        pc:e -> companies:w
+        companies:e -> start_c:w
+    }
 }
