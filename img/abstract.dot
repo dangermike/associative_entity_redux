@@ -22,7 +22,7 @@ digraph {
     </TABLE>>]
 
     people [shape="plaintext" label=<<TABLE  BORDER="0" CELLBORDER="1" CELLSPACING="0">
-        <TR><TD><B>PK_PEOPLE</B></TD></TR>
+        <TR><TD><B>PEOPLE</B></TD></TR>
         <TR><TD port="pid">id (PK)</TD></TR>
         <TR><TD port="name">name (IX)</TD></TR>
     </TABLE>>]

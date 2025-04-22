@@ -33,18 +33,18 @@
 <!-- pk_people -->
 <g id="node7" class="node">
 <title>pk_people</title>
-<polygon fill="none" stroke="black" points="157.26,-230.25 157.26,-252.75 237.51,-252.75 237.51,-230.25 157.26,-230.25"/>
-<text text-anchor="start" x="160.26" y="-237.45" font-family="Courier,monospace" font-weight="bold" font-size="14.00">PK_PEOPLE</text>
-<polygon fill="none" stroke="black" points="157.26,-207.75 157.26,-230.25 237.51,-230.25 237.51,-207.75 157.26,-207.75"/>
+<polygon fill="none" stroke="black" points="169.63,-230.25 169.63,-252.75 225.13,-252.75 225.13,-230.25 169.63,-230.25"/>
+<text text-anchor="start" x="172.63" y="-237.45" font-family="Courier,monospace" font-weight="bold" font-size="14.00">PEOPLE</text>
+<polygon fill="none" stroke="black" points="169.63,-207.75 169.63,-230.25 225.13,-230.25 225.13,-207.75 169.63,-207.75"/>
 <text text-anchor="start" x="189.13" y="-213.95" font-family="Courier,monospace" font-size="14.00">id</text>
-<polygon fill="none" stroke="black" points="157.26,-185.25 157.26,-207.75 237.51,-207.75 237.51,-185.25 157.26,-185.25"/>
+<polygon fill="none" stroke="black" points="169.63,-185.25 169.63,-207.75 225.13,-207.75 225.13,-185.25 169.63,-185.25"/>
 <text text-anchor="start" x="180.88" y="-191.45" font-family="Courier,monospace" font-size="14.00">name</text>
 </g>
 <!-- start_p&#45;&gt;pk_people -->
 <g id="edge11" class="edge">
 <title>start_p&#45;&gt;pk_people:r</title>
-<path fill="none" stroke="green" stroke-width="5" d="M90.34,-169.37C108.94,-183.95 131.99,-196.5 156.26,-196.5"/>
-<polygon fill="green" stroke="green" stroke-width="5" points="93.42,-166.25 82.97,-163.11 87.76,-172.92 93.42,-166.25"/>
+<path fill="none" stroke="green" stroke-width="5" d="M92.47,-166.82C113.92,-182.46 140.89,-196.5 168.63,-196.5"/>
+<polygon fill="green" stroke="green" stroke-width="5" points="95.37,-163.53 84.79,-160.82 89.98,-170.43 95.37,-163.53"/>
 </g>
 <!-- ix_people -->
 <g id="node8" class="node">
@@ -138,8 +138,8 @@
 <!-- pk_people&#45;&gt;ix_pc -->
 <g id="edge10" class="edge">
 <title>pk_people:l&#45;&gt;ix_pc:r</title>
-<path fill="none" stroke="green" stroke-width="5" d="M254.52,-217.42C274.05,-213.29 283.07,-202.5 309.13,-202.5"/>
-<polygon fill="green" stroke="green" stroke-width="5" points="254.23,-213.05 244.71,-218.39 255.09,-221.76 254.23,-213.05"/>
+<path fill="none" stroke="green" stroke-width="5" d="M242.15,-217.87C267,-214.14 277.54,-202.5 309.13,-202.5"/>
+<polygon fill="green" stroke="green" stroke-width="5" points="242.02,-213.49 232.35,-218.56 242.64,-222.22 242.02,-213.49"/>
 </g>
 <!-- ix_people&#45;&gt;pk_pc -->
 <g id="edge5" class="edge">

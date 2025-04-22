@@ -117,7 +117,7 @@ All values are in bytes. Queries are in the [appendix](#table-size-queries).
 
 #### PostgreSQL performance and size
 
-The value of the covering index in PostgreSQL is clear: p2c and c2p cost is roughly the same with the covering index, but sigificantly slower without the covering index. This is matches our expectations. The total size cost of the covering index is 17.8% for the `people_companies` table.
+The value of the covering index in PostgreSQL is clear: p2c and c2p cost is roughly the same with the covering index, but significantly slower without the covering index. This is matches our expectations. The total size cost of the covering index is 17.8% for the `people_companies` table.
 
 #### MySQL performance and size
 

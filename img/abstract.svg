@@ -19,7 +19,7 @@
 <g id="node5" class="node">
 <title>people</title>
 <polygon fill="none" stroke="black" points="136.63,-63.4 136.63,-85.9 216.88,-85.9 216.88,-63.4 136.63,-63.4"/>
-<text text-anchor="start" x="139.63" y="-70.6" font-family="Courier,monospace" font-weight="bold" font-size="14.00">PK_PEOPLE</text>
+<text text-anchor="start" x="152.01" y="-70.6" font-family="Courier,monospace" font-weight="bold" font-size="14.00">PEOPLE</text>
 <polygon fill="none" stroke="black" points="136.63,-40.9 136.63,-63.4 216.88,-63.4 216.88,-40.9 136.63,-40.9"/>
 <text text-anchor="start" x="147.88" y="-47.1" font-family="Courier,monospace" font-size="14.00">id (PK)</text>
 <polygon fill="none" stroke="black" points="136.63,-18.4 136.63,-40.9 216.88,-40.9 216.88,-18.4 136.63,-18.4"/>

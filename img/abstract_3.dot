@@ -1,0 +1,13 @@
+digraph {
+    rankdir=LR
+    node [fontname="courier" shape="square" height="1.33"]
+    graph [fontname="courier-bold" fontsize="18"]
+    edge [arrowhead="crowodot" arrowtail="crowodot"]
+
+    People
+    Companies
+    People_Companies [label="People\nCompanies" shape="Msquare"]
+    People -> People_Companies
+    People_Companies -> Companies [dir="back"]
+
+}
